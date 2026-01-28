@@ -1,41 +1,54 @@
-// Server Component (default) — we can fetch data here directly!
 import ServiceCard from '@/components/ui/ServiceCard';
-import BlogCard from '@/components/ui/BlogCard';
 import ProductCard from '@/components/ui/ProductCard';
+import BlogCard from '@/components/ui/BlogCard';
 
+// Fetch functions
 async function getServices() {
-  const res = await fetch('http://localhost/my-website-backend/api/get_services.php', {
-    cache: 'no-store', // disable cache for dynamic data
+  const res = await fetch('http://localhost/nextjs/nextapp/api/get_services.php', {
+    cache: 'no-store', // disable cache for fresh data
+  });
+  return res.json();
+}
+
+async function getProducts() {
+  const res = await fetch('http://localhost/nextjs/nextapp/api/get_products.php', {
+    cache: 'no-store',
+  });
+  return res.json();
+}
+
+async function getBlogs() {
+  const res = await fetch('http://localhost/nextjs/nextapp/api/get_blogs.php', {
+    cache: 'no-store',
   });
   return res.json();
 }
 
 export default async function HomePage() {
-  const services = await getServices(); // ← Server side fetch!
+  // Fetch all data in parallel
+  const [services, products, blogs] = await Promise.all([
+    getServices(),
+    getProducts(),
+    getBlogs(),
+  ]);
 
-  return (
-    <div>
-      {services.map(service => (
-        <ServiceCard key={service.id} title={service.title} desc={service.description} />
-      ))}
-    </div>
-  );
-}
-
-export default function HomePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Banner */}
-      <section className="bg-blue-100 h-64 flex items-center justify-center mb-8">
+      <section className="bg-blue-100 h-64 flex items-center justify-center mb-8 rounded">
         <h1 className="text-3xl font-bold">Welcome to Our Website</h1>
       </section>
 
       {/* Services */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Our Services</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {mockServices.map(service => (
-            <ServiceCard key={service.id} {...service} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service: any) => (
+            <ServiceCard
+              key={service.id}
+              title={service.title}
+              description={service.description}
+            />
           ))}
         </div>
       </section>
@@ -43,9 +56,13 @@ export default function HomePage() {
       {/* Products */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Featured Products</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {mockProducts.map(product => (
-            <ProductCard key={product.id} {...product} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map((product: any) => (
+            <ProductCard
+              key={product.id}
+              name={product.name}
+              price={product.price}
+            />
           ))}
         </div>
       </section>
@@ -54,8 +71,13 @@ export default function HomePage() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Latest Blogs</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {mockBlogs.map(blog => (
-            <BlogCard key={blog.id} {...blog} />
+          {blogs.map((blog: any) => (
+            <BlogCard
+              key={blog.id}
+              title={blog.title}
+              excerpt={blog.excerpt}
+              date={blog.date}
+            />
           ))}
         </div>
       </section>
