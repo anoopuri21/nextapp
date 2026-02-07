@@ -2,13 +2,13 @@
 if ($_POST) {
     require_once '../config.php';
 
-    $title = $_POST['title'];
-    $description = $_POST['description'];
+    $name = $_POST['name'];
+    $overview = $_POST['overview'];
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO services (title, description) VALUES (?, ?)");
-        $stmt->execute([$title, $description]);
-        $message = "Service added successfully!";
+        $stmt = $pdo->prepare("INSERT INTO industries (name, overview) VALUES (?, ?)");
+        $stmt->execute([$name, $overview]);
+        $message = "Industry added successfully!";
     } catch (Exception $e) {
         $error = $e->getMessage();
     }
@@ -17,7 +17,7 @@ if ($_POST) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Service</title>
+    <title>Add Industry</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
@@ -25,8 +25,8 @@ if ($_POST) {
 <body>
     <div class="admin-container">
         <div class="admin-header">
-            <h1>Add New Service</h1>
-            <p>Create a new service record for the catalog.</p>
+            <h1>Add New Industry</h1>
+            <p>Capture industry segments you serve.</p>
         </div>
 
         <nav class="admin-nav">
@@ -49,14 +49,14 @@ if ($_POST) {
 
             <form method="POST" class="form-grid">
                 <div>
-                    <label>Title</label>
-                    <input type="text" name="title" required />
+                    <label>Name</label>
+                    <input type="text" name="name" required />
                 </div>
                 <div>
-                    <label>Description</label>
-                    <textarea name="description" rows="4" required></textarea>
+                    <label>Overview</label>
+                    <textarea name="overview" rows="4" required></textarea>
                 </div>
-                <button type="submit">Add Service</button>
+                <button type="submit">Add Industry</button>
             </form>
         </div>
     </div>
