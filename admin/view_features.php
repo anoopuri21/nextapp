@@ -4,21 +4,21 @@ require_admin();
 
 require_once '../config.php';
 
-$stmt = $pdo->query("SELECT * FROM services ORDER BY created_at DESC");
-$services = $stmt->fetchAll();
+$stmt = $pdo->query("SELECT * FROM features ORDER BY created_at DESC");
+$features = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>All Services</title>
+    <title>All Features</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="admin-container">
         <div class="admin-header">
-            <h1>All Services</h1>
-            <p>Review, update, and manage service offerings.</p>
+            <h1>All Features</h1>
+            <p>Manage feature highlights shown across the platform.</p>
         </div>
 
         <nav class="admin-nav">
@@ -37,19 +37,19 @@ $services = $stmt->fetchAll();
             <table class="table">
                 <tr>
                     <th>ID</th>
-                    <th>Title</th>
+                    <th>Name</th>
                     <th>Description</th>
                     <th>Created At</th>
                     <th>Actions</th>
                 </tr>
-                <?php foreach ($services as $service): ?>
+                <?php foreach ($features as $feature): ?>
                 <tr>
-                    <td><?= $service['id'] ?></td>
-                    <td><?= htmlspecialchars($service['title']) ?></td>
-                    <td><?= htmlspecialchars($service['description']) ?></td>
-                    <td><?= $service['created_at'] ?></td>
+                    <td><?= $feature['id'] ?></td>
+                    <td><?= htmlspecialchars($feature['name']) ?></td>
+                    <td><?= htmlspecialchars($feature['description']) ?></td>
+                    <td><?= $feature['created_at'] ?></td>
                     <td>
-                        <a href="edit_service.php?id=<?= $service['id'] ?>">Edit</a>
+                        <a href="edit_feature.php?id=<?= $feature['id'] ?>">Edit</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

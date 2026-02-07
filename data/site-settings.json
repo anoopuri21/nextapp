@@ -1,0 +1,15 @@
+{
+  "companyName": "NextApp",
+  "logoLight": "/next.svg",
+  "logoDark": "/next.svg",
+  "phone": "+1 (555) 010-2020",
+  "email": "hello@nextapp.io",
+  "contactEmail1": "puri.anoop21@gmail.com",
+  "contactEmail2": "support@nextapp.io",
+  "socialLinks": {
+    "linkedin": "https://www.linkedin.com",
+    "twitter": "https://twitter.com",
+    "instagram": "https://www.instagram.com",
+    "facebook": "https://www.facebook.com"
+  }
+}

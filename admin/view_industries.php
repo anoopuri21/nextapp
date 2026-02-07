@@ -4,21 +4,21 @@ require_admin();
 
 require_once '../config.php';
 
-$stmt = $pdo->query("SELECT * FROM services ORDER BY created_at DESC");
-$services = $stmt->fetchAll();
+$stmt = $pdo->query("SELECT * FROM industries ORDER BY created_at DESC");
+$industries = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>All Services</title>
+    <title>All Industries</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="admin-container">
         <div class="admin-header">
-            <h1>All Services</h1>
-            <p>Review, update, and manage service offerings.</p>
+            <h1>All Industries</h1>
+            <p>Review the list of industry segments.</p>
         </div>
 
         <nav class="admin-nav">
@@ -37,19 +37,19 @@ $services = $stmt->fetchAll();
             <table class="table">
                 <tr>
                     <th>ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
+                    <th>Name</th>
+                    <th>Overview</th>
                     <th>Created At</th>
                     <th>Actions</th>
                 </tr>
-                <?php foreach ($services as $service): ?>
+                <?php foreach ($industries as $industry): ?>
                 <tr>
-                    <td><?= $service['id'] ?></td>
-                    <td><?= htmlspecialchars($service['title']) ?></td>
-                    <td><?= htmlspecialchars($service['description']) ?></td>
-                    <td><?= $service['created_at'] ?></td>
+                    <td><?= $industry['id'] ?></td>
+                    <td><?= htmlspecialchars($industry['name']) ?></td>
+                    <td><?= htmlspecialchars($industry['overview']) ?></td>
+                    <td><?= $industry['created_at'] ?></td>
                     <td>
-                        <a href="edit_service.php?id=<?= $service['id'] ?>">Edit</a>
+                        <a href="edit_industry.php?id=<?= $industry['id'] ?>">Edit</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

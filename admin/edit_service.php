@@ -2,34 +2,49 @@
 require_once 'auth.php';
 require_admin();
 
-if ($_POST) {
-    require_once '../config.php';
+require_once '../config.php';
 
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
+if (!$id) {
+    header('Location: view_services.php');
+    exit;
+}
+
+if ($_POST) {
     $title = $_POST['title'];
     $description = $_POST['description'];
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO services (title, description) VALUES (?, ?)");
-        $stmt->execute([$title, $description]);
-        $message = "Service added successfully!";
+        $stmt = $pdo->prepare("UPDATE services SET title = ?, description = ? WHERE id = ?");
+        $stmt->execute([$title, $description, $id]);
+        $message = "Service updated successfully!";
     } catch (Exception $e) {
         $error = $e->getMessage();
     }
+}
+
+$stmt = $pdo->prepare("SELECT * FROM services WHERE id = ?");
+$stmt->execute([$id]);
+$service = $stmt->fetch();
+
+if (!$service) {
+    header('Location: view_services.php');
+    exit;
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Service</title>
+    <title>Edit Service</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="admin-container">
         <div class="admin-header">
-            <h1>Add New Service</h1>
-            <p>Create a new service record for the catalog.</p>
+            <h1>Edit Service</h1>
+            <p>Update the service details and save changes.</p>
         </div>
 
         <nav class="admin-nav">
@@ -56,13 +71,13 @@ if ($_POST) {
             <form method="POST" class="form-grid">
                 <div>
                     <label>Title</label>
-                    <input type="text" name="title" required />
+                    <input type="text" name="title" value="<?= htmlspecialchars($service['title']) ?>" required />
                 </div>
                 <div>
                     <label>Description</label>
-                    <textarea name="description" rows="4" required></textarea>
+                    <textarea name="description" rows="4" required><?= htmlspecialchars($service['description']) ?></textarea>
                 </div>
-                <button type="submit">Add Service</button>
+                <button type="submit">Save Changes</button>
             </form>
         </div>
     </div>
